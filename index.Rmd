@@ -654,7 +654,7 @@ Thanks to the beauty of Github a few others have made contributions.
 * [Leo Collado Torres](http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0) fixed some typos/added links, used `knitrBootstrap` `r citep(bib[['knitrBootstrap']])` to format the page, contributed the protocol to [test your R package with Travis](http://jtleek.com/protocols/travis_bioc_devel/).
 * [Alyssa Frazee](http://alyssafrazee.com/) fixed typos/corrected grammar
 * [Robert M Flight](http://rmflight.github.io) corrected some information about writing vignettes.
-* [Jeromy Anglim](jeromyanglim.blogspot.com) small tweak to description of unit testing
+* [Jeromy Anglim](http://jeromyanglim.blogspot.com) small tweak to description of unit testing
 
 # Footnotes
 
