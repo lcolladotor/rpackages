@@ -29,7 +29,9 @@ bibs <- c('knitcitations' = citation('knitcitations'),
     slidify = citation('slidify'),
     rCharts = citation('rCharts'),
     testthat = citation('testthat'),
-    stringr = citation('stringr')
+    stringr = citation('stringr'),
+    derfinder = citation('derfinder'),
+    formatR = citation('formatR')
 )
 write.bibtex(bibs, file = 'NewPostRefs.bib')
 bib <- read.bibtex('NewPostRefs.bib')
@@ -262,6 +264,8 @@ I will try to keep the stylistic requirements minimal because they would likely 
 You can set these as defaults (say in Sublime, Textmate or RStudio) then you don't have to worry about them anymore. If you find 
 lines going longer than 80 columns, you will need to write the lines into functions, etc. 
 
+We also recommend using `formatR` `r citep(bib[['formatR']])` to nicely format your code. For example, use the `tidy_source()` function to reformat the code in a `R` source file.
+
 
 # Documentation
 
@@ -287,7 +291,7 @@ each of these separately.
 
 These files document each of the functions/methods/classes you will expose to your users. The good news is that
 you don't have to write these files yourself. You will use the `roxygen2` `r citep(bib[['roxygen2']])` package to create the man files. To use
-`roxygen2` `r citep(bib[['roxygen2']])` you will need to document your functions in the `.R` files with comments formatted in a specific way. Right
+`roxygen2` you will need to document your functions in the `.R` files with comments formatted in a specific way. Right
 before your functions you should have a set of comments that are denoted by the symbol `#'`. They are structured in 
 the following way:
 
@@ -316,9 +320,9 @@ myfunction <- function(inputParameter1, inputParameter2){
 }
 ```
 You include the `@export` command if you want the function to be exported (i.e. visible) to your end users. [Hadley](http://had.co.nz/) has a pretty comprehensive [guide](http://adv-r.had.co.nz/Documenting-functions.html) where you can 
-learn a lot more about how `roxygen` works. Your function follows immediately after the comments. 
+learn a lot more about how `roxygen2` works. Your function follows immediately after the comments. 
 
-When you have saved functions with `roxygen2` `r citep(bib[['roxygen2']])` style comments you can create the `.Rd` files (the man files themselves) 
+When you have saved functions with `roxygen2` style comments you can create the `.Rd` files (the man files themselves) 
 by running:
 
 ```{r 'makedocs', eval = FALSE}
@@ -327,7 +331,7 @@ document("packagename")
 ```
 on the package folder. The package folder must be in the current working directory where you are editing. 
 
-Please read [Hadley](http://had.co.nz/)'s [guide](http://adv-r.had.co.nz/Documenting-functions.html) in its entirety to understand how to document packages and in particular, how `roxygen2` `r citep(bib[['roxygen2']])` 
+Please read [Hadley](http://had.co.nz/)'s [guide](http://adv-r.had.co.nz/Documenting-functions.html) in its entirety to understand how to document packages and in particular, how `roxygen2` 
 deals with [collation](http://cran.r-project.org/doc/manuals/R-exts.html#The-DESCRIPTION-file) and [namespaces](http://cran.r-project.org/doc/manuals/R-exts.html#Package-namespaces). 
 
 
@@ -347,7 +351,7 @@ create a vignette. For our purposes, a vignette is a tutorial that includes the 
   * A description of the output and how it can be used
   
 We will write Vignettes in `knitr` `r citep(bib[['knitr']])`. Vignettes can generate either HTML from R markdown, or pdf from latex. In either case, the files should be in [__packagename/vignettes/__](http://cran.r-project.org/doc/manuals/R-exts.html#Writing-package-vignettes). During package building they will be moved to __packagename/inst/doc__. For HTML vignettes, the vignette files should be `vignette.Rmd`. For PDF vignettes, it should be `vignette.Rnw`. [Here](http://yihui.name/knitr/demo/vignette/) is some information
-from [Yihui](http://yihui.name/) about building vignettes in `knitr` `r citep(bib[['knitr']])`). 
+from [Yihui](http://yihui.name/) about building vignettes in `knitr` `r citep(bib[['knitr']])`. 
 
 For latex vignettes, you should use the `BiocStyle` `r citep(bib[['BiocStyle']])`
 package to style your vignette. This means you will need to add this code to the preamble of your `Rnw`
@@ -549,7 +553,11 @@ you should be testing:
 * That you get reasonable answers for reasonable inputs
 * When you know what the answer should be - you get it
 
+For a full example, check [derfinder's unit tests](https://github.com/lcolladotor/derfinder/tree/master/tests).
 
+## Automatically test your package
+
+You may be interested in automatically testing your packages with `R CMD check` while you are developing it in [GitHub](https://github.com). As a [Leek group protocol](http://jtleek.com/protocols/), we have described how to do so in [_Routinely testing your R package with Travis_](http://jtleek.com/protocols/travis_bioc_devel/).
 
 
 
@@ -571,6 +579,11 @@ error will result. This will cause you headaches when maintaining your software.
 with the `stop` function at the beginning of each function that throw errors if the arguments don't have the correct
 class or would result in silly output (like the zero variance gene test in the unit testing example above). 
 
+## Reduce arguments
+
+When possible, assume some default parameters for the users and reduce the list of arguments they see. You can achieve this using the triple dots argument (...) to hide a set of advanced arguments. 
+
+In the `derfinder` `r citep(bib[['derfinder']])` package we decided to use a helper function to identify some advanced arguments: check it [here](https://github.com/lcolladotor/derfinder/blob/master/R/utils.R) and how it's used in [another function](https://github.com/lcolladotor/derfinder/blob/master/R/analyzeChr.R). There are other ways you can reduce the number of arguments, but the idea is that doing so will reduce the user's confusion level.
 
 
 # Releasing to [Bioconductor](http://www.bioconductor.org/)
@@ -631,14 +644,14 @@ after it is released without messing with users and adds to the maintenance head
 # About the author(s)
 
 
-The first version of this tutorial was written by [Jeff Leek](http://jtleek.com/)  ([@simplystats](https://twitter.com/simplystats)). Hopefully
+The first version of this tutorial was written by [Jeff Leek](http://jtleek.com/)  (@[simplystats](https://twitter.com/simplystats)). Hopefully
 he can sucker his students into contributing since they are much, much better `R` programmers than he is.
 
 Thanks to the beauty of Github a few others have made contributions.
 
 * [Titus Brown](http://ivory.idyll.org/blog) added the GitHub flow and organization links.  You can see his group's setup at [ged-lab](http://github.com/ged-lab).
 * [Karl Broman](http://www.biostat.wisc.edu/~kbroman/) fixed some problems with license recommendations.
-* [Leo Collado Torres](http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0) fixed some typos/added links, used `knitrBootstrap` `r citep(bib[['knitrBootstrap']])` to format the page.
+* [Leo Collado Torres](http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0) fixed some typos/added links, used `knitrBootstrap` `r citep(bib[['knitrBootstrap']])` to format the page, contributed the protocol to [test your R package with Travis](http://jtleek.com/protocols/travis_bioc_devel/).
 * [Alyssa Frazee](http://alyssafrazee.com/) fixed typos/corrected grammar
 * [Robert M Flight](http://rmflight.github.io) corrected some information about writing vignettes.
 * [Jeromy Anglim](jeromyanglim.blogspot.com) small tweak to description of unit testing

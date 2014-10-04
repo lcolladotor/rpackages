@@ -909,9 +909,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1>What you need</h1>
 <p>To start writing an <code>R</code> package you need:</p>
 <ul>
-<li><code>R</code> (<a href='http://www.R-project.org/'>R Core Team, 2014</a>)- I mean, unless you are a wizard.</li>
+<li><code>R</code> <a id='cite-R'></a>(<a href='http://www.R-project.org/'>R Core Team, 2014</a>)- I mean, unless you are a wizard.</li>
 <li>Your functions, each written in a separate file<sup>2</sup>.</li>
-<li>At minimum the following packages installed: <code>devtools</code> (<a href='http://CRAN.R-project.org/package=devtools'>Wickham and Chang, 2014</a>), <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) (suggested by <code>devtools</code>), <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>).</li>
+<li>At minimum the following packages installed: <code>devtools</code> <a id='cite-devtools'></a>(<a href='http://CRAN.R-project.org/package=devtools'>Wickham and Chang, 2014</a>), <code>roxygen2</code> <a id='cite-roxygen2'></a>(<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) (suggested by <code>devtools</code>), <code>knitr</code> <a id='cite-knitr'></a>(<a href='http://yihui.name/knitr/'>Xie, 2014</a>).</li>
 <li>If you are going to use C code: <code>Rcpp</code> .</li>
 <li><a href="https://help.github.com/articles/set-up-git">Install git</a>.</li>
 <li>A <a href="https://github.com/signup/free">github account</a>.</li>
@@ -930,7 +930,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>Never, under any circumstances, let <a href="http://rafalab.dfci.harvard.edu/">Rafa</a> or <a href="http://www.cbcb.umd.edu/~hcorrada/">Hector</a> name your package.<sup>3</sup></li>
 </ul>
 <h2>Versioning your package</h2>
-<p>Almost all of our packages will eventually go on <a href="http://www.bioconductor.org/">Bioconductor</a> (<a href='http://genomebiology.com/2004/5/10/R80'>Gentleman, Carey, Bates, and others, 2004</a>). So we are going to use the <a href="http://www.bioconductor.org/developers/version-numbering/">versioning scheme</a> that is compatible with that platform (with some helpful suggestions from <a href="http://www.hansenlab.org/">Kasper H.</a>).</p>
+<p>Almost all of our packages will eventually go on <a href="http://www.bioconductor.org/">Bioconductor</a> <a id='cite-bioc'></a>(<a href='http://genomebiology.com/2004/5/10/R80'>Gentleman, Carey, Bates, and others, 2004</a>). So we are going to use the <a href="http://www.bioconductor.org/developers/version-numbering/">versioning scheme</a> that is compatible with that platform (with some helpful suggestions from <a href="http://www.hansenlab.org/">Kasper H.</a>).</p>
 <p>The format of the version number will always be <code>x.y.z</code>. When you start any new package the version number should be <code>0.1.0</code>. Every time you make any change public (e.g., push to <a href="https://github.com/">GitHub</a>) you should increase <code>z</code> in the version number. If you are making local commits but not making them public to other people you don't need to increase <code>z</code>. You should stay in version <code>0.1.z</code> basically up until you are ready to submit to <a href="http://www.bioconductor.org/">Bioconductor</a> (or <a href="http://cran.r-project.org/">CRAN</a>) for release.</p>
 <p>Before release you can increase <code>y</code> if you perform a major redesign of how the functions are organized or are used. You should never increase <code>x</code> before release.</p>
 <p>The first time you submit the package to <a href="http://www.bioconductor.org/">Bioconductor</a> you should submit it as version number <code>0.99.z</code>. That way on the next release of <a href="http://www.bioconductor.org/">Bioconductor</a> it will get bumped to <code>1.0.0</code>. The next devel version will get bumped to <code>1.1.0</code> on <a href="http://www.bioconductor.org/">Bioconductor</a>. Immediately after releasing, if you plan to keep working on the project, you should bump your version on <a href="https://github.com/">GitHub</a> to <code>1.1.0</code>.</p>
@@ -1020,6 +1020,7 @@ License: Artistic-2.0</code></pre>
 <li>Each line can be no more than 80 columns</li>
 </ol>
 <p>You can set these as defaults (say in Sublime, Textmate or RStudio) then you don't have to worry about them anymore. If you find lines going longer than 80 columns, you will need to write the lines into functions, etc.</p>
+<p>We also recommend using <code>formatR</code> <a id='cite-formatR'></a>(<a href='http://CRAN.R-project.org/package=formatR'>Xie, 2014</a>) to nicely format your code. For example, use the <code>tidy_source()</code> function to reformat the code in a <code>R</code> source file.</p>
 <h1>Documentation</h1>
 <p>This is how I feel about the relative importance of various components of statistical software development:</p>
 <p><img src="https://raw.github.com/jtleek/rpackages/master/documentation.png" alt="documentation" /></p>
@@ -1027,7 +1028,7 @@ License: Artistic-2.0</code></pre>
 <p>But if your software solves a real problem (it should!) and is well documented (it will be!) then people will use it and you will have a positive impact on the world.</p>
 <p>Documentation has two main components. The first component is help files, which go into the <code>man/</code> folder. The second component is vignettes which will go in a folder called `vignettes/ which you will have to create. I'll tackle each of these separately.</p>
 <h2>Help (man) files</h2>
-<p>These files document each of the functions/methods/classes you will expose to your users. The good news is that you don't have to write these files yourself. You will use the <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) package to create the man files. To use <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) you will need to document your functions in the <code>.R</code> files with comments formatted in a specific way. Right before your functions you should have a set of comments that are denoted by the symbol <code>#'</code>. They are structured in the following way:</p>
+<p>These files document each of the functions/methods/classes you will expose to your users. The good news is that you don't have to write these files yourself. You will use the <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) package to create the man files. To use <code>roxygen2</code> you will need to document your functions in the <code>.R</code> files with comments formatted in a specific way. Right before your functions you should have a set of comments that are denoted by the symbol <code>#'</code>. They are structured in the following way:</p>
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
 <span class="glyphicon glyphicon-chevron-down"></span> R source
@@ -1055,8 +1056,8 @@ myfunction <- function(inputParameter1, inputParameter2){
     return(result)
 }</code></pre>
 </div>
-<p>You include the <code>@export</code> command if you want the function to be exported (i.e. visible) to your end users. <a href="http://had.co.nz/">Hadley</a> has a pretty comprehensive <a href="http://adv-r.had.co.nz/Documenting-functions.html">guide</a> where you can learn a lot more about how <code>roxygen</code> works. Your function follows immediately after the comments.</p>
-<p>When you have saved functions with <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) style comments you can create the <code>.Rd</code> files (the man files themselves) by running:</p>
+<p>You include the <code>@export</code> command if you want the function to be exported (i.e. visible) to your end users. <a href="http://had.co.nz/">Hadley</a> has a pretty comprehensive <a href="http://adv-r.had.co.nz/Documenting-functions.html">guide</a> where you can learn a lot more about how <code>roxygen2</code> works. Your function follows immediately after the comments.</p>
+<p>When you have saved functions with <code>roxygen2</code> style comments you can create the <code>.Rd</code> files (the man files themselves) by running:</p>
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
 <span class="glyphicon glyphicon-chevron-down"></span> R source
@@ -1065,7 +1066,7 @@ myfunction <- function(inputParameter1, inputParameter2){
 document("packagename")</code></pre>
 </div>
 <p>on the package folder. The package folder must be in the current working directory where you are editing.</p>
-<p>Please read <a href="http://had.co.nz/">Hadley</a>'s <a href="http://adv-r.had.co.nz/Documenting-functions.html">guide</a> in its entirety to understand how to document packages and in particular, how <code>roxygen2</code> (<a href='http://CRAN.R-project.org/package=roxygen2'>Wickham, Danenberg, and Eugster, 2014</a>) deals with <a href="http://cran.r-project.org/doc/manuals/R-exts.html#The-DESCRIPTION-file">collation</a> and <a href="http://cran.r-project.org/doc/manuals/R-exts.html#Package-namespaces">namespaces</a>.</p>
+<p>Please read <a href="http://had.co.nz/">Hadley</a>'s <a href="http://adv-r.had.co.nz/Documenting-functions.html">guide</a> in its entirety to understand how to document packages and in particular, how <code>roxygen2</code> deals with <a href="http://cran.r-project.org/doc/manuals/R-exts.html#The-DESCRIPTION-file">collation</a> and <a href="http://cran.r-project.org/doc/manuals/R-exts.html#Package-namespaces">namespaces</a>.</p>
 <h2>Vignettes</h2>
 <p>Documentation in the help files is important and is the primary way that people will figure out your functions if they get stuck. But it is equally (maybe more) critical that you help people <em>get started</em>. The way that you do that is to create a vignette. For our purposes, a vignette is a tutorial that includes the following components:</p>
 <ul>
@@ -1078,21 +1079,21 @@ document("packagename")</code></pre>
 <li>An application of these functions to the data</li>
 <li>A description of the output and how it can be used</li>
 </ul>
-<p>We will write Vignettes in <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>). Vignettes can generate either HTML from R markdown, or pdf from latex. In either case, the files should be in <a href="http://cran.r-project.org/doc/manuals/R-exts.html#Writing-package-vignettes"><strong>packagename/vignettes/</strong></a>. During package building they will be moved to <strong>packagename/inst/doc</strong>. For HTML vignettes, the vignette files should be <code>vignette.Rmd</code>. For PDF vignettes, it should be <code>vignette.Rnw</code>. <a href="http://yihui.name/knitr/demo/vignette/">Here</a> is some information from <a href="http://yihui.name/">Yihui</a> about building vignettes in <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>)).</p>
-<p>For latex vignettes, you should use the <code>BiocStyle</code> (<a href='#bib-BiocStyle'>Morgan, Oles, and Huber, 2014</a>) package to style your vignette. This means you will need to add this code to the preamble of your <code>Rnw</code> file:</p>
+<p>We will write Vignettes in <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>). Vignettes can generate either HTML from R markdown, or pdf from latex. In either case, the files should be in <a href="http://cran.r-project.org/doc/manuals/R-exts.html#Writing-package-vignettes"><strong>packagename/vignettes/</strong></a>. During package building they will be moved to <strong>packagename/inst/doc</strong>. For HTML vignettes, the vignette files should be <code>vignette.Rmd</code>. For PDF vignettes, it should be <code>vignette.Rnw</code>. <a href="http://yihui.name/knitr/demo/vignette/">Here</a> is some information from <a href="http://yihui.name/">Yihui</a> about building vignettes in <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>).</p>
+<p>For latex vignettes, you should use the <code>BiocStyle</code> <a id='cite-BiocStyle'></a>(<a href='#bib-BiocStyle'>Morgan, Oles, and Huber, 2014</a>) package to style your vignette. This means you will need to add this code to the preamble of your <code>Rnw</code> file:</p>
 <pre><code>&lt;&lt;style, eval=TRUE, echo=FALSE, results=&#39;asis&#39;&gt;&gt;=
 BiocStyle::latex()
 @</code></pre>
 <p>See the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/BiocStyle/inst/doc/LatexStyle.pdf">BiocStyle vignette</a> for commands that you can use when creating your vignette (e.g. <code>\Biocpkg{IRanges}</code> for referencing a <a href="http://www.bioconductor.org/">Bioconductor</a> package).</p>
-<p>Alternatively, you can make HTML vignettes. See the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/BiocStyle/inst/doc/HtmlStyle.html">BiocStyle HTML vignette</a> on how to do so. Or check how we've made others using <code>knitrBootstrap</code> (<a href='https://github.com/jimhester/'>Hester, 2014</a>) <a href="https://github.com/lcolladotor/derfinder/tree/master/vignettes">here</a> which render into <a href="http://lcolladotor.github.io/derfinder/">this</a>.</p>
+<p>Alternatively, you can make HTML vignettes. See the <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/BiocStyle/inst/doc/HtmlStyle.html">BiocStyle HTML vignette</a> on how to do so. Or check how we've made others using <code>knitrBootstrap</code> <a id='cite-knitrBootstrap'></a>(<a href='https://github.com/jimhester/'>Hester, 2014</a>) <a href="https://github.com/lcolladotor/derfinder/tree/master/vignettes">in the derfinder package</a> which render into <a href="http://lcolladotor.github.io/derfinder/">these pages</a>.</p>
 <h1>Who should be ...</h1>
 <h2>an author?</h2>
-<p>For our purposes anyone who wrote a function exposed to users in the package (a function that has an <span class="citation">@export</span> in the documentation) will be listed as an author.</p>
+<p>For our purposes anyone who wrote a function exposed to users in the package (a function that has an `<span class="citation">@export</span> in the documentation) will be listed as an author.</p>
 <h2>a maintainer?</h2>
 <p><strong>You</strong> will be a maintainer and <a href="http://jtleek.com/">Jeff</a> will be a maintainer. If you can sucker one of your fellow students into maintaining the package as well, you can list them, but they must make the same commitment to 5 years of support.</p>
-<h2><a href="http://www.brainyquote.com/quotes/quotes/a/aaronsorki405048.html">Good writers borrow from other authors, great authors steal outright</a><sup>4</sup></h2>
+<h1><a href="http://www.brainyquote.com/quotes/quotes/a/aaronsorki405048.html">Good writers borrow from other authors, great authors steal outright</a><sup>4</sup></h1>
 <p>One thing I think a lot of academics (definitely including myself here) struggle with is the need to be &quot;new&quot; and &quot;innovative&quot; with everything they do. There is a strong <a href="http://en.wikipedia.org/wiki/Evolutionary_pressure">selective pressure</a> for these qualities in academia.</p>
-<p>But when writing software it is very, very important not to reinvent every single wheel you see. One person who is awesome at blending existing tools and exponentially building value is <a href="https://github.com/ramnathv">Ramnath Vaidyanathan</a>. He built <code>slidify</code> (<a href='http://ramnathv.github.com/slidify/'>Vaidyanathan, 2012</a>) on top of <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>) and <code>rCharts</code> (<a href='#bib-rCharts'>Vaidyanathan, 2013</a>) on top of existing <a href="http://d3js.org/">D3</a> libraries. They allowed him to create awesome software without having to solve every single problem.</p>
+<p>But when writing software it is very, very important not to reinvent every single wheel you see. One person who is awesome at blending existing tools and exponentially building value is <a href="https://github.com/ramnathv">Ramnath Vaidyanathan</a>. He built <code>slidify</code> <a id='cite-slidify'></a>(<a href='http://ramnathv.github.com/slidify/'>Vaidyanathan, 2012</a>) on top of <code>knitr</code> (<a href='http://yihui.name/knitr/'>Xie, 2014</a>) and <code>rCharts</code> <a id='cite-rCharts'></a>(<a href='#bib-rCharts'>Vaidyanathan, 2013</a>) on top of existing <a href="http://d3js.org/">D3</a> libraries. They allowed him to create awesome software without having to solve every single problem.</p>
 <p>Before writing general purpose functions (say for regression or for calculating p-values or for making plots) make sure you search for functions that already exist (or ask <a href="http://jtleek.com/">Jeff</a>/your fellow students if you aren't sure).</p>
 <p>An important and balancing principle is that you should try to keep the number of dependencies for your package as small as possible. You should also try to use packages that you trust will be maintained. Some ways to tell if a package is &quot;trustworthy&quot; are to check the number of downloads/users (higher is better), check to see if the package is being actively updated (on <a href="https://github.com/">GitHub</a>/<a href="http://www.bioconductor.org/">Bioconductor</a>/<a href="http://cran.r-project.org/">CRAN</a>) and there is a history of updates, and check to see if the authors of the packages routinely maintain important packages (like <a href="http://had.co.nz/">Hadley</a>, <a href="http://yihui.name/">Yihui</a>, <a href="https://github.com/ramnathv">Ramnath</a>, <a href="http://www.fhcrc.org/en/util/directory.html?q=martin+morgan&amp;short=true#peopleresults">Martin Morgan</a>, etc.). Keep in mind your commitment (see below) when making decisions about whose functions to use.</p>
 <h1>Simple &gt;&gt;&gt;&gt; Complex</h1>
@@ -1106,14 +1107,14 @@ BiocStyle::latex()
 <li>They make it easier for you to figure out if your code works together</li>
 <li><strong>They make you slow down and think about what you are doing</strong></li>
 </ul>
-<p>Your advisor tends to rush through things. While there is a strong interest in being competitive/getting things done in the <a href="http://jtleek.com/">Leek group</a>, there is an even stronger interest in doing them right and for the long term. We will use the <code>testthat</code> (<a href='http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf'>Wickham, 2011</a>) -- described <a href="http://adv-r.had.co.nz/Testing.html">here</a> -- framework for building unit tests. A couple of suggestions for using the framework are:</p>
+<p>Your advisor tends to rush through things. While there is a strong interest in being competitive/getting things done in the <a href="http://jtleek.com/">Leek group</a>, there is an even stronger interest in doing them right and for the long term. We will use the <code>testthat</code> <a id='cite-testthat'></a>(<a href='http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf'>Wickham, 2011</a>) framework (described <a href="http://adv-r.had.co.nz/Testing.html">here</a>) for building unit tests. A couple of suggestions for using the framework are:</p>
 <ul>
 <li>Organize your tests into contexts (groups of tests) and name them.</li>
 <li>Have some tests that test the basic helper functions on fixed data.</li>
 <li>Have some tests that check the output of your main functions on fixed data.</li>
 <li>Have some tests that can be run on random data - these can help find bugs before they happen</li>
 </ul>
-<p>To use the <code>testthat</code> (<a href='http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf'>Wickham, 2011</a>) package you will put a file called <em>test-area-packagename.R</em> in the <code>inst/tests</code> directory, where <code>area</code> is the name of the broad class of functions you are testing. Then add another file called <em>run-all.R</em> to a separate directory called <code>tests</code> (see for example the <code>stringr</code> (<a href='http://CRAN.R-project.org/package=stringr'>Wickham, 2012</a>) package). The <em>run-all.R</em> function has this code in it:</p>
+<p>To use the <code>testthat</code> (<a href='http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf'>Wickham, 2011</a>) package you will put a file called <em>test-area-packagename.R</em> in the <code>inst/tests</code> directory, where <code>area</code> is the name of the broad class of functions you are testing. Then add another file called <em>run-all.R</em> to a separate directory called <code>tests</code> (see for example the <code>stringr</code> <a id='cite-stringr'></a>(<a href='http://CRAN.R-project.org/package=stringr'>Wickham, 2012</a>) package). The <em>run-all.R</em> function has this code in it:</p>
 <div class="row">
 <button class="source R toggle btn btn-xs btn-primary">
 <span class="glyphicon glyphicon-chevron-down"></span> R source
@@ -1206,11 +1207,17 @@ test on outputs : ..</code></pre>
 <li>That you get reasonable answers for reasonable inputs</li>
 <li>When you know what the answer should be - you get it</li>
 </ul>
+<p>For a full example, check <a href="https://github.com/lcolladotor/derfinder/tree/master/tests">derfinder's unit tests</a>.</p>
+<h2>Automatically test your package</h2>
+<p>You may be interested in automatically testing your packages with <code>R CMD check</code> while you are developing it in <a href="https://github.com">GitHub</a>. As a <a href="http://jtleek.com/protocols/">Leek group protocol</a>, we have described how to do so in <a href="http://jtleek.com/protocols/travis_bioc_devel/"><em>Routinely testing your R package with Travis</em></a>.</p>
 <h1>Dummy proofing</h1>
 <p>Hopefully your package will have a ton of users. Inevitably, they will try to use the software for purposes you did not intend. Some of these will be happy things (software you wrote for microarrays being used in sequencing). Sometimes they will be unhappy - people using it completely out of context and getting wonky answers.</p>
 <p>A major component of dummy proofing is writing thorough documentation and vignettes (see the above sections). When you see weird cases (reported from users or cases you find yourself) add them to the documents. There is one additional important component of dummy proofing we will use: input dummy proofing (related to unit testing).</p>
 <h2>Input dummy-proofing</h2>
 <p>Most of the time, if you input non-matching arguments or arguments of the wrong class into R functions a cryptic error will result. This will cause you headaches when maintaining your software. So you should add some commands with the <code>stop</code> function at the beginning of each function that throw errors if the arguments don't have the correct class or would result in silly output (like the zero variance gene test in the unit testing example above).</p>
+<h2>Reduce arguments</h2>
+<p>When possible, assume some default parameters for the users and reduce the list of arguments they see. You can achieve this using the triple dots argument (...) to hide a set of advanced arguments.</p>
+<p>In the <code>derfinder</code> <a id='cite-derfinder'></a>(<a href='https://github.com/lcolladotor/derfinder'>Collado-Torres, Frazee, Jaffe, and Leek, 2014</a>) package we decided to use a helper function to identify some advanced arguments: check it <a href="https://github.com/lcolladotor/derfinder/blob/master/R/utils.R">here</a> and how it's used in <a href="https://github.com/lcolladotor/derfinder/blob/master/R/analyzeChr.R">another function</a>. There are other ways you can reduce the number of arguments, but the idea is that doing so will reduce the user's confusion level.</p>
 <h1>Releasing to <a href="http://www.bioconductor.org/">Bioconductor</a></h1>
 <p>Once you have developed a package you should use it yourself for a couple of weeks. Then you should have at least one other student use it without you giving them any instructions other than telling them where some data are - that way you can test your documentation. Finally, you should meet with <a href="http://jtleek.com/">Jeff</a> and get ready to release it to <a href="http://www.bioconductor.org/">Bioconductor</a>.</p>
 <p>The steps in releasing to <a href="http://www.bioconductor.org/">Bioconductor</a> are:</p>
@@ -1246,12 +1253,12 @@ system.time(check("packagename", args='--no-build-vignettes')) ## R CMD check wi
 <li>Add comments to your code/unit tests so that when something breaks you can find/fix the problem quickly.</li>
 </ul>
 <h1>About the author(s)</h1>
-<p>The first version of this tutorial was written by <a href="http://jtleek.com/">Jeff Leek</a> (<span class="citation">[@simplystats]</span>(https://twitter.com/simplystats)). Hopefully he can sucker his students into contributing since they are much, much better <code>R</code> programmers than he is.</p>
+<p>The first version of this tutorial was written by <a href="http://jtleek.com/">Jeff Leek</a> (@<a href="https://twitter.com/simplystats">simplystats</a>). Hopefully he can sucker his students into contributing since they are much, much better <code>R</code> programmers than he is.</p>
 <p>Thanks to the beauty of Github a few others have made contributions.</p>
 <ul>
 <li><a href="http://ivory.idyll.org/blog">Titus Brown</a> added the GitHub flow and organization links. You can see his group's setup at <a href="http://github.com/ged-lab">ged-lab</a>.</li>
 <li><a href="http://www.biostat.wisc.edu/~kbroman/">Karl Broman</a> fixed some problems with license recommendations.</li>
-<li><a href="http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0">Leo Collado Torres</a> fixed some typos/added links, used <code>knitrBootstrap</code> (<a href='https://github.com/jimhester/'>Hester, 2014</a>) to format the page.</li>
+<li><a href="http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0">Leo Collado Torres</a> fixed some typos/added links, used <code>knitrBootstrap</code> (<a href='https://github.com/jimhester/'>Hester, 2014</a>) to format the page, contributed the protocol to <a href="http://jtleek.com/protocols/travis_bioc_devel/">test your R package with Travis</a>.</li>
 <li><a href="http://alyssafrazee.com/">Alyssa Frazee</a> fixed typos/corrected grammar</li>
 <li><a href="http://rmflight.github.io">Robert M Flight</a> corrected some information about writing vignettes.</li>
 <li><a href="jeromyanglim.blogspot.com">Jeromy Anglim</a> small tweak to description of unit testing</li>
@@ -1264,43 +1271,49 @@ system.time(check("packagename", args='--no-build-vignettes')) ## R CMD check wi
 <li>With proper attribution, of course.</li>
 </ol>
 <h1>References</h1>
-<p>Citations made with <code>knitcitations</code> (<a href='https://github.com/cboettig/knitcitations'>Boettiger, 2014</a>).</p>
+<p>Citations made with <code>knitcitations</code> <a id='cite-knitcitations'></a>(<a href='https://github.com/cboettig/knitcitations'>Boettiger, 2014</a>).</p>
 <div class="row">
 <p>
 <a id='bib-knitcitations'></a><a href="#cite-knitcitations">[1]</a><cite> C. Boettiger. <EM>knitcitations: Citations for knitr markdown files</EM>. R package version 1.0.2. 2014. URL: <a href="https://github.com/cboettig/knitcitations">https://github.com/cboettig/knitcitations</a>.</cite>
 </p>
 <p>
-<a id='bib-bioc'></a><a href="#cite-bioc">[2]</a><cite> R. C. Gentleman, V. J. Carey, D. M. Bates and others. “Bioconductor: Open software development for computational biology and bioinformatics”. In: <EM>Genome Biology</EM> 5 (2004), p. R80. URL: <a href="http://genomebiology.com/2004/5/10/R80">http://genomebiology.com/2004/5/10/R80</a>.</cite>
+<a id='bib-derfinder'></a><a href="#cite-derfinder">[2]</a><cite> L. Collado-Torres, A. Frazee, A. Jaffe and J. Leek. <EM>derfinder: Fast differential expression analysis of RNA-seq data at base-pair resolution</EM>. R package version 0.99.5. 2014. URL: <a href="https://github.com/lcolladotor/derfinder">https://github.com/lcolladotor/derfinder</a>.</cite>
 </p>
 <p>
-<a id='bib-knitrBootstrap'></a><a href="#cite-knitrBootstrap">[3]</a><cite> J. Hester. <EM>knitrBootstrap: Knitr Bootstrap framework.</EM> R package version 1.0.0. 2014. URL: <a href="https://github.com/jimhester/">https://github.com/jimhester/</a>.</cite>
+<a id='bib-bioc'></a><a href="#cite-bioc">[3]</a><cite> R. C. Gentleman, V. J. Carey, D. M. Bates and others. “Bioconductor: Open software development for computational biology and bioinformatics”. In: <EM>Genome Biology</EM> 5 (2004), p. R80. URL: <a href="http://genomebiology.com/2004/5/10/R80">http://genomebiology.com/2004/5/10/R80</a>.</cite>
 </p>
 <p>
-<a id='bib-BiocStyle'></a><a href="#cite-BiocStyle">[4]</a><cite> M. Morgan, A. Oles and W. Huber. <EM>BiocStyle: Standard styles for vignettes and other Bioconductor documents</EM>. R package version 1.3.14. 2014.</cite>
+<a id='bib-knitrBootstrap'></a><a href="#cite-knitrBootstrap">[4]</a><cite> J. Hester. <EM>knitrBootstrap: Knitr Bootstrap framework.</EM> R package version 1.0.0. 2014. URL: <a href="https://github.com/jimhester/">https://github.com/jimhester/</a>.</cite>
 </p>
 <p>
-<a id='bib-R'></a><a href="#cite-R">[5]</a><cite> R Core Team. <EM>R: A Language and Environment for Statistical Computing</EM>. R Foundation for Statistical Computing. Vienna, Austria, 2014. URL: <a href="http://www.R-project.org/">http://www.R-project.org/</a>.</cite>
+<a id='bib-BiocStyle'></a><a href="#cite-BiocStyle">[5]</a><cite> M. Morgan, A. Oles and W. Huber. <EM>BiocStyle: Standard styles for vignettes and other Bioconductor documents</EM>. R package version 1.3.14. 2014.</cite>
 </p>
 <p>
-<a id='bib-rCharts'></a><a href="#cite-rCharts">[6]</a><cite> R. Vaidyanathan. <EM>rCharts: Interactive Charts using Javascript Visualization Libraries</EM>. R package version 0.4.5. 2013.</cite>
+<a id='bib-R'></a><a href="#cite-R">[6]</a><cite> R Core Team. <EM>R: A Language and Environment for Statistical Computing</EM>. R Foundation for Statistical Computing. Vienna, Austria, 2014. URL: <a href="http://www.R-project.org/">http://www.R-project.org/</a>.</cite>
 </p>
 <p>
-<a id='bib-slidify'></a><a href="#cite-slidify">[7]</a><cite> R. Vaidyanathan. <EM>slidify: Generate reproducible html5 slides from R markdown</EM>. R package version 0.4.5. 2012. URL: <a href="http://ramnathv.github.com/slidify/">http://ramnathv.github.com/slidify/</a>.</cite>
+<a id='bib-rCharts'></a><a href="#cite-rCharts">[7]</a><cite> R. Vaidyanathan. <EM>rCharts: Interactive Charts using Javascript Visualization Libraries</EM>. R package version 0.4.5. 2013.</cite>
 </p>
 <p>
-<a id='bib-stringr'></a><a href="#cite-stringr">[8]</a><cite> H. Wickham. <EM>stringr: Make it easier to work with strings.</EM> R package version 0.6.2. 2012. URL: <a href="http://CRAN.R-project.org/package=stringr">http://CRAN.R-project.org/package=stringr</a>.</cite>
+<a id='bib-slidify'></a><a href="#cite-slidify">[8]</a><cite> R. Vaidyanathan. <EM>slidify: Generate reproducible html5 slides from R markdown</EM>. R package version 0.4.5. 2012. URL: <a href="http://ramnathv.github.com/slidify/">http://ramnathv.github.com/slidify/</a>.</cite>
 </p>
 <p>
-<a id='bib-testthat'></a><a href="#cite-testthat">[9]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <EM>The R Journal</EM> 3 (2011), pp. 5–10. URL: <a href="http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
+<a id='bib-stringr'></a><a href="#cite-stringr">[9]</a><cite> H. Wickham. <EM>stringr: Make it easier to work with strings.</EM> R package version 0.6.2. 2012. URL: <a href="http://CRAN.R-project.org/package=stringr">http://CRAN.R-project.org/package=stringr</a>.</cite>
 </p>
 <p>
-<a id='bib-devtools'></a><a href="#cite-devtools">[10]</a><cite> H. Wickham and W. Chang. <EM>devtools: Tools to make developing R code easier</EM>. R package version 1.6. 2014. URL: <a href="http://CRAN.R-project.org/package=devtools">http://CRAN.R-project.org/package=devtools</a>.</cite>
+<a id='bib-testthat'></a><a href="#cite-testthat">[10]</a><cite> H. Wickham. “testthat: Get Started with Testing”. In: <EM>The R Journal</EM> 3 (2011), pp. 5–10. URL: <a href="http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf">http://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf</a>.</cite>
 </p>
 <p>
-<a id='bib-roxygen2'></a><a href="#cite-roxygen2">[11]</a><cite> H. Wickham, P. Danenberg and M. Eugster. <EM>roxygen2: In-source documentation for R</EM>. R package version 4.0.2. 2014. URL: <a href="http://CRAN.R-project.org/package=roxygen2">http://CRAN.R-project.org/package=roxygen2</a>.</cite>
+<a id='bib-devtools'></a><a href="#cite-devtools">[11]</a><cite> H. Wickham and W. Chang. <EM>devtools: Tools to make developing R code easier</EM>. R package version 1.6. 2014. URL: <a href="http://CRAN.R-project.org/package=devtools">http://CRAN.R-project.org/package=devtools</a>.</cite>
 </p>
 <p>
-<a id='bib-knitr'></a><a href="#cite-knitr">[12]</a><cite> Y. Xie. <EM>knitr: A general-purpose package for dynamic report generation in R</EM>. R package version 1.6. 2014. URL: <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</cite>
+<a id='bib-roxygen2'></a><a href="#cite-roxygen2">[12]</a><cite> H. Wickham, P. Danenberg and M. Eugster. <EM>roxygen2: In-source documentation for R</EM>. R package version 4.0.2. 2014. URL: <a href="http://CRAN.R-project.org/package=roxygen2">http://CRAN.R-project.org/package=roxygen2</a>.</cite>
+</p>
+<p>
+<a id='bib-formatR'></a><a href="#cite-formatR">[13]</a><cite> Y. Xie. <EM>formatR: Format R Code Automatically</EM>. R package version 1.0. 2014. URL: <a href="http://CRAN.R-project.org/package=formatR">http://CRAN.R-project.org/package=formatR</a>.</cite>
+</p>
+<p>
+<a id='bib-knitr'></a><a href="#cite-knitr">[14]</a><cite> Y. Xie. <EM>knitr: A general-purpose package for dynamic report generation in R</EM>. R package version 1.6. 2014. URL: <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</cite>
 </p>
 </div>
 <h1>Reproducibility</h1>
@@ -1368,7 +1381,7 @@ source('render.R')</code></pre>
 <button class="output R toggle btn btn-xs btn-success">
 <span class="glyphicon glyphicon-chevron-down"></span> R output
 </button>
-<pre style=""><code class="output r">## [1] "2014-10-04 12:02:28 EDT"
+<pre style=""><code class="output r">## [1] "2014-10-04 12:25:42 EDT"
 </code></pre>
 </div>
 </div>
