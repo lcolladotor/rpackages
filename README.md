@@ -1,4 +1,4 @@
 rpackages
 =========
 
-Please view files at [jtleek.com/rpackages/](http://jtleek.comrpackages/)!
+Please view at [jtleek.com/rpackages/](http://jtleek.com/rpackages/)!
