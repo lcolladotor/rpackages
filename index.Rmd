@@ -18,10 +18,18 @@ cleanbib()
 cite_options(hyperlink = 'to.doc', citation_format = 'text', style = 'html')
 
 bibs <- c('knitcitations' = citation('knitcitations'),
-    tidyr = RefManageR::BibEntry('article', title = 'Tidy Data', author = 'Hadley Wickham', year = 2014, journal = 'Journal of Statistical Software', url = 'http://www.jstatsoft.org/v59/i10/paper'),
-    reproducibility = RefManageR::BibEntry('article', title = 'Reproducible Research in Computational Science', author = 'Roger D. Peng', year = 2011, journal = 'Science', url = 'http://www.sciencemag.org/content/334/6060/1226'),
     R = citation(),
-    knitrBootstrap = citation('knitrBootstrap')
+    knitrBootstrap = citation('knitrBootstrap'),
+    bioc = citation('Biobase'),
+    devtools = citation('devtools'),
+    roxygen2 = citation('roxygen2'),
+    knitr = citation('knitr')[1],
+    Rcpp = citation('Rcpp'),
+    BiocStyle = citation('BiocStyle'),
+    slidify = citation('slidify'),
+    rCharts = citation('rCharts'),
+    testthat = citation('testthat'),
+    stringr = citation('stringr')
 )
 write.bibtex(bibs, file = 'NewPostRefs.bib')
 bib <- read.bibtex('NewPostRefs.bib')
@@ -42,8 +50,8 @@ The purposes of this guide are:
 
 
 
-Why develop an `R` package?
---------------------
+# Why develop an `R` package?
+
 
 Cause you know, you do what [your advisor](http://jtleek.com/) says and stuff.
 
@@ -64,34 +72,34 @@ say, "I made that". Leaving aside all the tangible benefits to your career, the 
 most gratifying feeling you get when working on research. 
 
 
-When to start writing an `R` package
----------------------
+# When to start writing an `R` package
+
 
 As soon as you have 2 functions. 
 
 Why 2? After you have more than one function it starts to get easy to lose track of
-what your functions do, it starts to be tempting to name your functions `foo` or `tempfunction` or some other such 
+what your functions do, it starts to be tempting to name your functions `foo()` or `tempfunction()` or some other such 
 nonsense. You are also tempted to put all of the functions in one file and just source it. That was what I did
 with my first project, which ended up being an epically comical set of about 3,000 lines of code in one `R` file. 
 Ask [my advisor](http://www.genomine.org/) about it sometime, he probably is still laughing about it. 
 
 
-What you need
---------------------
+# What you need
+
 
 To start writing an `R` package you need:
 
-* `R` - I mean, unless you are a wizard.
+* `R` `r citep(bib[['R']])`- I mean, unless you are a wizard.
 * Your functions, each written in a separate file<sup>2</sup>.
-* At minimum the following packages installed: [devtools](http://cran.r-project.org/web/packages/devtools/index.html), [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html) (suggested by [devtools](http://cran.r-project.org/web/packages/devtools/index.html)), [knitr](http://cran.r-project.org/web/packages/knitr/index.html).
-* If you are going to use C code: [Rcpp](http://cran.r-project.org/web/packages/Rcpp/index.html)
+* At minimum the following packages installed: `devtools` `r citep(bib[['devtools']])`, `roxygen2` `r citep(bib[['roxygen2']])` (suggested by `devtools`), `knitr` `r citep(bib[['knitr']])`.
+* If you are going to use C code: `Rcpp` `r citep(bib[['Rcpp']])`.
 * [Install git](https://help.github.com/articles/set-up-git).
 * A [github account](https://github.com/signup/free). 
 * To read [Hadley's intro](http://adv-r.had.co.nz/Package-basics.html).
 * To read [Karl's Github tutorial](http://kbroman.github.io/github_tutorial/).
 
-Naming your package
----------------------
+## Naming your package
+
 
 The first step in creating your `R` package is to give it a name. Hadley [has some ideas](http://adv-r.had.co.nz/Package-basics.html)
 about it. Here are our rules:
@@ -105,11 +113,11 @@ about it. Here are our rules:
 * Never, under any circumstances, let [Rafa](http://rafalab.dfci.harvard.edu/) or [Hector](http://www.cbcb.umd.edu/~hcorrada/) name your package.<sup>3</sup> 
 
 
-Versioning your package
----------------------
+## Versioning your package
 
-Almost all of our packages will eventually go on [Bioconductor](http://www.bioconductor.org/). So we are going to use the [versioning
-scheme](http://www.bioconductor.org/developers/version-numbering/) that is compatible with that platform (with some helpful suggestions from [Kasper H.](http://www.biostat.jhsph.edu/~khansen/)).
+
+Almost all of our packages will eventually go on [Bioconductor](http://www.bioconductor.org/) `r citep(bib[['bioc']])`. So we are going to use the [versioning
+scheme](http://www.bioconductor.org/developers/version-numbering/) that is compatible with that platform (with some helpful suggestions from [Kasper H.](http://www.hansenlab.org/)).
 
 The format of the version number will always be `x.y.z`. When you start any new package the version number should be
 `0.1.0`. Every time you make any change public (e.g., push to [GitHub](https://github.com/)) you should increase `z` in the version number. If 
@@ -127,13 +135,13 @@ Thereafter, again you should keep increasing `z` every time you make a public ch
 you should increase `y`. 
 
 
-Creating your package
----------------------
+## Creating your package
+
 
 Run this code from `R` to create your package. It will create a directory called `packagename` and put some stuff in it 
 (more on this stuff in a second). 
 
-```S
+```{r 'create', eval = FALSE}
 ## Setup
 install.packages(c("devtools", "roxygen2", "knitr"))
 
@@ -147,8 +155,8 @@ create("packagename")
 ```
 
 
-Put your package on [GitHub](https://github.com/)
------------------------
+## Put your package on [GitHub](https://github.com/)
+
 
 All packages that are developed by the [Leek group](http://jtleek.com/) will be hosted on [GitHub](https://github.com/). The accounts are free and
 it makes it so much easier to share code/get other people to help you with your code. Here are the
@@ -183,10 +191,10 @@ git push -u origin master
 
 Once you're familiar with basic git and GitHub workflows, GitHub has some more advanced features that you can take advantage of. In particular, [github flow](http://scottchacon.com/2011/08/31/github-flow.html) is an excellent way to manage contributions, and [GitHub organizations](https://github.com/blog/674-introducing-organizations) can provide a central location for multiple people (e.g. in a lab) to collaborate on software.
 
-The parts of an `R` package
---------------------
+# The parts of an `R` package
 
-### `R` functions
+
+## `R` functions
 
 The `R` functions you have written go in the `R/` directory in the `packagename` folder. Each of your `R` functions
 should go in a separate file with a `.R` extension. We are going to use capital `R` for the extension of the files. 
@@ -199,9 +207,9 @@ be named _newclass-methodname-method.R_. For example, a plotting method for the 
 called _leek-plot-method.R_. 
 
 
-### `DESCRIPTION `
+## `DESCRIPTION `
 
-The `DESCRIPTION` file is a plain text file that gets generated with the `devtools::create` command. 
+The `DESCRIPTION` file is a plain text file that gets generated with the `devtools::create()` command. 
 
 * The package name should go after the colon on the first line. 
 * The package title should be a one sentence description of what the package actually does. 
@@ -213,7 +221,7 @@ some idea about what kind of data your software should be used on, what the inpu
 * A maintainer field should be added with maintainers listed as comma separated files. You are the maintainer of your
 package when you create it. See the section below on after you leave the [Leek group](http://jtleek.com/) for more information. 
 * The dependencies (other `R` packages your software uses/depends on) should be listed in a comma separated list after
-the `R` version. One of the dependencies should be the [knitr](http://cran.r-project.org/web/packages/knitr/index.html) package for the vignette. 
+the `R` version. One of the dependencies should be the `knitr` `r citep(bib[['knitr']])` package for the vignette. 
 * The License is required to be open source. I like GPL-2 or GPL-3.
 I like the creative commons licenses, like [CC-BY-SA](http://creativecommons.org/licenses/by-sa/2.0/), for
 manuscripts, but [they are not recommended for software](http://wiki.creativecommons.org/Frequently_Asked_Questions#Can_I_apply_a_Creative_Commons_license_to_software.3F). 
@@ -241,8 +249,8 @@ Description: A couple sentences that expand the title
 License: Artistic-2.0
 ```
 
-Coding style requirements
----------------------
+# Coding style requirements
+
 
 I will try to keep the stylistic requirements minimal because they would likely drive you nuts. For now there are:
 
@@ -251,12 +259,12 @@ I will try to keep the stylistic requirements minimal because they would likely 
 2. Each line can be no more than 80 columns
 
 
-You can set these as defaults (say in Sublime or RStudio) then you don't have to worry about them anymore. If you find 
+You can set these as defaults (say in Sublime, Textmate or RStudio) then you don't have to worry about them anymore. If you find 
 lines going longer than 80 columns, you will need to write the lines into functions, etc. 
 
 
-Documentation
----------------------
+# Documentation
+
 
 This is how I feel about the relative importance of various components of statistical software development:
 
@@ -274,16 +282,16 @@ Documentation has two main components. The first component is help files, which 
 component is vignettes which will go in a folder called `vignettes/ which you will have to create. I'll tackle 
 each of these separately. 
 
-### Help (man) files
+## Help (man) files
 
 
 These files document each of the functions/methods/classes you will expose to your users. The good news is that
-you don't have to write these files yourself. You will use the [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html) package to create the man files. To use
-[roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html) you will need to document your functions in the `.R` files with comments formatted in a specific way. Right
+you don't have to write these files yourself. You will use the `roxygen2` `r citep(bib[['roxygen2']])` package to create the man files. To use
+`roxygen2` `r citep(bib[['roxygen2']])` you will need to document your functions in the `.R` files with comments formatted in a specific way. Right
 before your functions you should have a set of comments that are denoted by the symbol `#'`. They are structured in 
 the following way:
 
-```S
+```{r 'document', eval = FALSE}
 #' A one sentence description of what your function does
 #' 
 #' A more detailed description of what the function is and how
@@ -310,20 +318,20 @@ myfunction <- function(inputParameter1, inputParameter2){
 You include the `@export` command if you want the function to be exported (i.e. visible) to your end users. [Hadley](http://had.co.nz/) has a pretty comprehensive [guide](http://adv-r.had.co.nz/Documenting-functions.html) where you can 
 learn a lot more about how `roxygen` works. Your function follows immediately after the comments. 
 
-When you have saved functions with [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html) style comments you can create the `.Rd` files (the man files themselves) 
+When you have saved functions with `roxygen2` `r citep(bib[['roxygen2']])` style comments you can create the `.Rd` files (the man files themselves) 
 by running:
 
-```S
+```{r 'makedocs', eval = FALSE}
 library("devtools")
 document("packagename")
 ```
 on the package folder. The package folder must be in the current working directory where you are editing. 
 
-Please read [Hadley](http://had.co.nz/)'s [guide](http://adv-r.had.co.nz/Documenting-functions.html) in its entirety to understand how to document packages and in particular, how [roxygen2](http://cran.r-project.org/web/packages/roxygen2/index.html) 
+Please read [Hadley](http://had.co.nz/)'s [guide](http://adv-r.had.co.nz/Documenting-functions.html) in its entirety to understand how to document packages and in particular, how `roxygen2` `r citep(bib[['roxygen2']])` 
 deals with [collation](http://cran.r-project.org/doc/manuals/R-exts.html#The-DESCRIPTION-file) and [namespaces](http://cran.r-project.org/doc/manuals/R-exts.html#Package-namespaces). 
 
 
-### Vignettes
+## Vignettes
 
 Documentation in the help files is important and is the primary way that people will figure out your functions if they
 get stuck. But it is equally (maybe more) critical that you help people _get started_. The way that you do that is to
@@ -338,14 +346,14 @@ create a vignette. For our purposes, a vignette is a tutorial that includes the 
   * An application of these functions to the data
   * A description of the output and how it can be used
   
-We will write Vignettes in [knitr](http://yihui.name/knitr/). Vignettes can generate either HTML from R markdown, or pdf from latex. In either case, the files should be in [__packagename/vignettes/__](http://cran.r-project.org/doc/manuals/R-exts.html#Writing-package-vignettes). During package building they will be moved to __packagename/inst/doc__. For HTML vignettes, the vignette files should be `vignette.Rmd`. For PDF vignettes, it should be `vignette.Rnw`. [Here](http://yihui.name/knitr/demo/vignette/) is some information
-from [Yihui](http://yihui.name/) about building vignettes in [knitr](http://cran.r-project.org/web/packages/knitr/index.html). 
+We will write Vignettes in `knitr` `r citep(bib[['knitr']])`. Vignettes can generate either HTML from R markdown, or pdf from latex. In either case, the files should be in [__packagename/vignettes/__](http://cran.r-project.org/doc/manuals/R-exts.html#Writing-package-vignettes). During package building they will be moved to __packagename/inst/doc__. For HTML vignettes, the vignette files should be `vignette.Rmd`. For PDF vignettes, it should be `vignette.Rnw`. [Here](http://yihui.name/knitr/demo/vignette/) is some information
+from [Yihui](http://yihui.name/) about building vignettes in `knitr` `r citep(bib[['knitr']])`). 
 
-For latex vignettes, you should use the [BiocStyle](http://www.bioconductor.org/packages/devel/bioc/html/BiocStyle.html)
+For latex vignettes, you should use the `BiocStyle` `r citep(bib[['BiocStyle']])`
 package to style your vignette. This means you will need to add this code to the preamble of your `Rnw`
 file:
 
-```S
+```
 <<style, eval=TRUE, echo=FALSE, results='asis'>>=
 BiocStyle::latex()
 @
@@ -354,22 +362,24 @@ BiocStyle::latex()
 See the [BiocStyle vignette](http://www.bioconductor.org/packages/devel/bioc/vignettes/BiocStyle/inst/doc/LatexStyle.pdf) for
 commands that you can use when creating your vignette (e.g. `\Biocpkg{IRanges}` for referencing a [Bioconductor](http://www.bioconductor.org/) package).
 
+Alternatively, you can make HTML vignettes. See the [BiocStyle HTML vignette](http://www.bioconductor.org/packages/devel/bioc/vignettes/BiocStyle/inst/doc/HtmlStyle.html) on how to do so. Or check how we've made others using `knitrBootstrap` `r citep(bib[['knitrBootstrap']])` [in the derfinder package](https://github.com/lcolladotor/derfinder/tree/master/vignettes) which render into [these pages](http://lcolladotor.github.io/derfinder/).
 
 
-Who should be an author?
----------------------
+# Who should be ...
 
-For our purposes anyone who wrote a function exposed to users in the package (a function that has an @export in the documentation)
+## an author?
+
+
+For our purposes anyone who wrote a function exposed to users in the package (a function that has an `@export in the documentation)
 will be listed as an author. 
 
-Who should be a maintainer
----------------------
+## a maintainer?
+
 
 __You__ will be a maintainer and [Jeff](http://jtleek.com/) will be a maintainer. If you can sucker one of your fellow students into maintaining the package
 as well, you can list them, but they must make the same commitment to 5 years of support. 
 
-[Good writers borrow from other authors, great authors steal outright](http://www.brainyquote.com/quotes/quotes/a/aaronsorki405048.html)<sup>4</sup>
----------------------
+# [Good writers borrow from other authors, great authors steal outright](http://www.brainyquote.com/quotes/quotes/a/aaronsorki405048.html)<sup>4</sup>
 
 One thing I think a lot of academics (definitely including myself here) struggle with is the need to be "new" and 
 "innovative" with everything they do. There is a strong [selective pressure](http://en.wikipedia.org/wiki/Evolutionary_pressure)
@@ -377,7 +387,7 @@ for these qualities in academia.
 
 But when writing software it is very, very important not to reinvent every single wheel you see. One person who 
 is awesome at blending existing tools and exponentially building value is [Ramnath Vaidyanathan](https://github.com/ramnathv).
-He built [slidify](https://github.com/ramnathv/slidify) on top of [knitr](http://cran.r-project.org/web/packages/knitr/index.html) and [rCharts](https://github.com/ramnathv/rCharts) 
+He built `slidify` `r citep(bib[['slidify']])` on top of `knitr` `r citep(bib[['knitr']])` and `rCharts` `r citep(bib[['rCharts']])` 
 on top of existing [D3](http://d3js.org/) libraries. They allowed him to create awesome software without having to solve every single problem.
 
 Before writing general purpose functions (say for regression or for calculating p-values or for making plots) make sure
@@ -390,8 +400,8 @@ actively updated (on [GitHub](https://github.com/)/[Bioconductor](http://www.bio
 packages routinely maintain important packages (like [Hadley](http://had.co.nz/), [Yihui](http://yihui.name/), [Ramnath](https://github.com/ramnathv), [Martin Morgan](http://www.fhcrc.org/en/util/directory.html?q=martin+morgan&short=true#peopleresults), etc.). Keep in mind your
 commitment (see below) when making decisions about whose functions to use. 
 
-Simple >>>> Complex
----------------------
+# Simple >>>> Complex
+
 
 A major temptation for everyone creating code is to generate a bunch of features they think that users will want without
 actually testing those features out. The problem is that each new feature you create in your package will monotonically
@@ -399,16 +409,16 @@ increase the number of dependencies and the amount of code you have to maintain.
 to create exactly enough functions that the users can install your package, perform your analysis, and return the results,
 __with no extraneous functionality__.
 
-Specifically, be wary of things like GUIs or [Shiny](http://www.rstudio.com/shiny/) apps. Given the heavy emphasis placed on reproducibility these days,
+Specifically, be wary of things like GUIs or [Shiny](http://www.rstudio.com/products/shiny/) apps. Given the heavy emphasis placed on reproducibility these days,
 it is rarely the case that real/important analyses will be performed in a point and click format. 
 
 If you are way into creating products that point-and-click users will be interested in I'm very happy to support you in 
 that, since I think those things are cool, probably the future, and can certainly raise the interest in your work. But
-they present a potentially major difficulty in maintainence and should be placed in separate packages on your own account. 
+they present a potentially major difficulty in maintenance and should be placed in separate packages on your own account. 
 
 
-Unit tests
----------------------
+# Unit tests
+
 
 Unit tests are an important for the following reasons:
 
@@ -419,7 +429,7 @@ Unit tests are an important for the following reasons:
 
 Your advisor tends to rush through things. While there is a strong interest in being competitive/getting things done in the 
 [Leek group](http://jtleek.com/), there is an even stronger interest in doing them right and for the long term. 
-We will use the [testthat](http://adv-r.had.co.nz/Testing.html) framework for building unit tests. A couple of suggestions
+We will use the `testthat` `r citep(bib[['testthat']])` framework (described [here](http://adv-r.had.co.nz/Testing.html)) for building unit tests. A couple of suggestions
 for using the framework are:
 
 * Organize your tests into contexts (groups of tests) and name them.
@@ -428,12 +438,12 @@ for using the framework are:
 * Have some tests that can be run on random data - these can help find bugs before they happen
 
 
-To use the [testthat](http://adv-r.had.co.nz/Testing.html) package you will put a file called _test-area-packagename.R_ in
+To use the `testthat` `r citep(bib[['testthat']])` package you will put a file called _test-area-packagename.R_ in
 the `inst/tests` directory, where `area` is the name of the broad class of functions you are testing. Then add
-another file called _run-all.R_ to a separate directory called `tests` (see for example the [stringr](https://github.com/hadley/stringr) package). The _run-all.R_ function has this code in it:
+another file called _run-all.R_ to a separate directory called `tests` (see for example the `stringr` `r citep(bib[['stringr']])` package). The _run-all.R_ function has this code in it:
 
 
-```S
+```{r 'test', eval = FALSE}
 library(testthat)
 library(mypackage)
 test_package("mypackage")
@@ -444,13 +454,13 @@ is important, because it will be one way for me to check your code and to tell y
 with an update. 
 
 
-### An example unit test
+## An example unit test
 
 Here is an example unit test, so you get the idea of what I'm looking for. Below is a function for performing
 differential expression analysis on a matrix. 
 
 
-```S
+```{r 'deFunction', eval = FALSE}
 #' A function for differential expression analysis
 #' 
 #' This function takes a matrix of gene expression data
@@ -482,7 +492,7 @@ deFunction <- function(dat, grp){
 Now create a new file called `test-defunction.R`. The code in that file is: 
 
 
-```S
+```{r 'context', eval = FALSE}
 context("tests on inputs")
 
 test_that("tests for grp variable",{
@@ -522,7 +532,7 @@ test_that("test p-values are numeric and non-zero",{
 
 If you run the command: `test_file("test-defunction.R")` you should get the output:
 
-```S
+```
 tests on inputs : ....
 test on outputs : ..
 ```
@@ -543,8 +553,8 @@ you should be testing:
 
 
 
-Dummy proofing
----------------------
+# Dummy proofing
+
 
 Hopefully your package will have a ton of users. Inevitably, they will try to use the software for purposes you did not
 intend. Some of these will be happy things (software you wrote for microarrays being used in sequencing). Sometimes
@@ -554,7 +564,7 @@ A major component of dummy proofing is writing thorough documentation and vignet
 When you see weird cases (reported from users or cases you find yourself) add them to the documents. There is one
 additional important component of dummy proofing we will use: input dummy proofing (related to unit testing). 
 
-### Input dummy-proofing
+## Input dummy-proofing
 
 Most of the time, if you input non-matching arguments or arguments of the wrong class into R functions a cryptic
 error will result. This will cause you headaches when maintaining your software. So you should add some commands
@@ -563,8 +573,8 @@ class or would result in silly output (like the zero variance gene test in the u
 
 
 
-Releasing to [Bioconductor](http://www.bioconductor.org/)
----------------------
+# Releasing to [Bioconductor](http://www.bioconductor.org/)
+
 
 Once you have developed a package you should use it yourself for a couple of weeks. Then you should 
 have at least one other student use it without you giving them any instructions other than telling them
@@ -577,10 +587,10 @@ The steps in releasing to [Bioconductor](http://www.bioconductor.org/) are:
 the package is ready to upload.
 	* In particular, check that your package passes R CMD check in less than 5 minutes. You can use
 	
-```S
+```{r 'check', eval = FALSE}
 library("devtools")
 check_doc("packagename") ## Only for checking the documentation
-system.time(check("packagename")) ## R CMD check with time information
+system.time(check("packagename", args='--no-build-vignettes')) ## R CMD check with time information
 ```
 
 * Update the version number and push to [GitHub](https://github.com/). In the commit comments, state it is the version being 
@@ -591,8 +601,8 @@ pushed to [Bioconductor](http://www.bioconductor.org/).
 that this is the new devel version. 
 
 
-Your commitment
----------------------
+# Your commitment
+
 
 You are vested in creating the software you are working on now since it is part of your training and will definitely
 help your short term career in terms of getting jobs/gaining visibility. But your time as a graduate student is
@@ -608,18 +618,18 @@ you commit to maintaining that software for at least 5 years after you graduate.
 like a contract or anything, but think of it as an honor thing. 
 
 5 years is a long time. It is most of the way toward tenure (in academia) or probably 3 years after you have started your
-own awesome company and appeared on [Techcrunch](http://techcrunch.com/). So it is worth thinking about ways you can ensure that the maintainence
+own awesome company and appeared on [Techcrunch](http://techcrunch.com/). So it is worth thinking about ways you can ensure that the maintenance
 will be as low as possible. Specifically:
 
 * Make the dependencies as minimal as possible. If your dependencies update, you'll have to update the software.
 * Only create functions that are absolutely necessary for the package. It is hard to delete functions from a package
-after it is released without messing with users and adds to the maintainence headache each time you keep one in. 
+after it is released without messing with users and adds to the maintenance headache each time you keep one in. 
 * Make the vignette really clear and add a FAQ with questions you get from users while you are still in the [Leek group](http://jtleek.com/). 
 * Add comments to your code/unit tests so that when something breaks you can find/fix the problem quickly. 
 
 
-About the author(s)
---------------------
+# About the author(s)
+
 
 The first version of this tutorial was written by [Jeff Leek](http://jtleek.com/)  ([@simplystats](https://twitter.com/simplystats)). Hopefully
 he can sucker his students into contributing since they are much, much better `R` programmers than he is.
@@ -628,12 +638,12 @@ Thanks to the beauty of Github a few others have made contributions.
 
 * [Titus Brown](http://ivory.idyll.org/blog) added the GitHub flow and organization links.  You can see his group's setup at [ged-lab](http://github.com/ged-lab).
 * [Karl Broman](http://www.biostat.wisc.edu/~kbroman/) fixed some problems with license recommendations.
-* [Leo Collado Torres](http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0) fixed some typos/added links
+* [Leo Collado Torres](http://www.biostat.jhsph.edu/~lcollado/#.UlP1O2TXis0) fixed some typos/added links, used `knitrBootstrap` `r citep(bib[['knitrBootstrap']])` to format the page.
 * [Alyssa Frazee](http://alyssafrazee.com/) fixed typos/corrected grammar
 * [Robert M Flight](http://rmflight.github.io) corrected some information about writing vignettes.
 * [Jeromy Anglim](jeromyanglim.blogspot.com) small tweak to description of unit testing
 
-### Footnotes
+# Footnotes
 
 1. These design requirements are subject to update and may not reflect [Leek group](http://jtleek.com/) software created before 9/18/2013 
 (or ever really, remember the perfect is the enemy of the very good).
